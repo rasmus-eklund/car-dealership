@@ -1,0 +1,46 @@
+<form id="filter_form" method="get" action="{% url 'index' %}">
+  <div class="nav-search">
+    <input id="filter_form_search" name="search" type="search" placeholder="Search" value="{{request.GET.search}}" aria-label="Search" />
+    <button type="submit" style="display: none;"></button>
+    <button id="filter-toggle">{% include 'icon_filter.html' %}</button>
+  </div>
+  <div id="nav-search-filters" class="nav-search-filters">
+    <label for="brand_select">Brand:</label>
+    <select class="form-element" name="brand" id="brand_select" onchange="this.form.submit()">
+      <option value="">Select Brand</option>
+      {% for brand in brands %}
+      <option value="{{ brand }}" {% if request.GET.brand == brand %}selected{% endif %}>{{ brand }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="model_select">Model:</label>
+    <select class="form-element" name="model" id="model_select" {% if not request.GET.brand %}disabled{% endif %}
+      onchange="this.form.submit()">
+      <option value="">Select Model</option>
+      {% if request.GET.brand %}
+      {% for model in models %}
+      <option value="{{ model }}" {% if request.GET.model == model %}selected{% endif %}>{{ model }}</option>
+      {% endfor %}
+      {% endif %}
+    </select>
+
+    <label for="fuel_select">Fuel Type:</label>
+    <select class="form-element" name="fuel" id="fuel_select" onchange="this.form.submit()">
+      <option value="">Select engine type</option>
+      <option value="Petrol" {% if request.GET.fuel == 'Petrol' %}selected{% endif %}>Petrol</option>
+      <option value="Diesel" {% if request.GET.fuel == 'Diesel' %}selected{% endif %}>Diesel</option>
+      <option value="Electric" {% if request.GET.fuel == 'Electric' %}selected{% endif %}>Electric</option>
+      <option value="Hybrid" {% if request.GET.fuel == 'Hybrid' %}selected{% endif %}>Hybrid</option>
+    </select>
+
+    <label for="filter_form_year">Year:</label>
+    <input class="form-element" type="text" pattern="\d{4}" name="year" id="filter_form_year" placeholder="Year"
+      value="{{ request.GET.year }}" onchange="this.form.submit()" />
+
+    <input class="form-element" type="text" pattern="\d+" name="minPrice" id="filter_form_minPrice" placeholder="Min Price"
+      value="{{ request.GET.minPrice }}" onchange="this.form.submit()" />
+
+    <input class="form-element" type="text" pattern="\d+" name="maxPrice" id="filter_form_maxPrice" placeholder="Max Price"
+      value="{{ request.GET.maxPrice }}" onchange="this.form.submit()" />
+  </div>
+</form>

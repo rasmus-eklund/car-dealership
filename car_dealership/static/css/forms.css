@@ -1,0 +1,26 @@
+.add_model_form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register_form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .register_form__form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  @media (min-width: 768px) {
+    .register_form {
+      .register_form__form {
+        max-width: 500px;
+      }
+    }
+  }
+}

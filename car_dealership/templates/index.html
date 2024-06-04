@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'filter.html' with models=models %}
+    <div class="index-header-container">
+        <h1>Used Cars for Sale</h1>
+        <p>
+            Discover a wide selection of used cars from various brands available for purchase, either through auction or at a fixed price. While many of these cars are in excellent condition, some may require minor repairs. Each vehicle has been thoroughly tested, with the results detailed in the respective advertisement.
+        </p>
+    </div>
+    <section class="cars-selection">
+        {% for car in cars %}
+            {% include 'card.html' with car=car %}
+        {% endfor %}
+    </section>
+    <div class="container mt-5">
+        <nav aria-label="Page navigation">
+            <ul class="custom-pagination">
+                {% if page_obj.has_previous %}
+                    <li class="custom-page-item">
+                        <a class="custom-page-link"
+                           href="?{% for key, value in params.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page=1"
+                           aria-label="First">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="custom-page-item">
+                        <a class="custom-page-link"
+                           href="?{% for key, value in params.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">previous</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="custom-page-item disabled">
+                        <a class="custom-page-link" href="#" tabindex="-1" aria-disabled="true">&laquo;</a>
+                    </li>
+                    <li class="custom-page-item disabled">
+                        <a class="custom-page-link" href="#" tabindex="-1" aria-disabled="true">previous</a>
+                    </li>
+                {% endif %}
+                <li class="custom-page-item active">
+                    <span class="custom-page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="custom-page-item">
+                        <a class="custom-page-link"
+                           href="?{% for key, value in params.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}"
+                           aria-label="Next">
+                            <span aria-hidden="true">next</span>
+                        </a>
+                    </li>
+                    <li class="custom-page-item">
+                        <a class="custom-page-link"
+                           href="?{% for key, value in params.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.paginator.num_pages }}"
+                           aria-label="Last">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="custom-page-item disabled">
+                        <a class="custom-page-link" href="#" tabindex="-1" aria-disabled="true">next</a>
+                    </li>
+                    <li class="custom-page-item disabled">
+                        <a class="custom-page-link" href="#" tabindex="-1" aria-disabled="true">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center profile_container">
+            <div class="col-md-8">
+                <legend class="border-bottom mb-4 text-center">User Details</legend>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item">
+                        <strong>ID:</strong> {{ user.id }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Username:</strong> {{ user.username }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Email:</strong> {{ user.email }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>First Name:</strong> {{ user.first_name }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Last Name:</strong> {{ user.last_name }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Staff Status:</strong> {{ user.is_staff }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Superuser Status:</strong> {{ user.is_superuser }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Groups:</strong>
+                        {% for group in user.groups.all %}
+                            {{ group.name }}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Permissions:</strong>
+                        {% for perm in user.user_permissions.all %}
+                            {{ perm.name }}
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </li>
+                </ul>
+                {% if current_user.is_superuser or current_user == user %}
+                    <div class="text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button"
+                                class="btn btn-outline-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editProfileModal">Edit Profile</button>
+                    </div>
+                {% endif %}
+            </div>
+            {% if reservations %}
+                <div>
+                    <h2>Reservations</h2>
+                    <ul class="list-group mb-4">
+                        {% for reservation in reservations %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>{{ reservation.car.model_name }}</h5>
+                                        <p class="text-muted">{{ reservation.car.year }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>{{ reservation.user.username }}</h5>
+                                        <p class="text-muted">{{ reservation.user.first_name }} {{ reservation.user.last_name }}</p>
+                                        <form action="{% url 'cancel_reservation' reservation.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="editProfileModal"
+         tabindex="-1"
+         aria-labelledby="editProfileModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Your Profile</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <form id="editProfileForm" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div id="error-container" class="alert alert-danger d-none"></div>
+                        <div class="mb-3">
+                            <label for="id_first_name" class="form-label">First name:</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_last_name" class="form-label">Last name:</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email:</label>
+                            {{ form.email }}
+                        </div>
+                        {% if 'is_staff' in form.fields %}
+                            <div class="mb-3">
+                                <label for="id_is_staff" class="form-label">Staff status:</label>
+                                {{ form.is_staff }}
+                            </div>
+                        {% endif %}
+                        {% if 'is_superuser' in form.fields %}
+                            <div class="mb-3">
+                                <label for="id_is_superuser" class="form-label">Superuser status:</label>
+                                {{ form.is_superuser }}
+                            </div>
+                        {% endif %}
+                        {% if 'groups' in form.fields %}
+                            <div class="mb-3">
+                                <label for="id_groups" class="form-label">Groups:</label>
+                                {{ form.groups }}
+                            </div>
+                        {% endif %}
+                        {% if 'user_permissions' in form.fields %}
+                            <div class="mb-3">
+                                <label for="id_user_permissions" class="form-label">Permissions:</label>
+                                {{ form.user_permissions }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

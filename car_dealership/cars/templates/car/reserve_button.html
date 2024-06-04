@@ -1,0 +1,17 @@
+{% if user.is_authenticated %}
+  {% if reservation %}
+    <form action="{% url 'cancel_reservation' reservation_id %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-danger" type="submit">Delete Reservation</button>
+    </form>
+  {% else %}
+    <form action="{% url 'reserve_car' car_id %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-primary" type="submit">Reserve Car</button>
+    </form>
+  {% endif %}
+{% else %}
+  <p>
+    Please <span style="color: blue"><a href="{% url 'login' %}">log in</a></span> to reserve a car.
+  </p>
+{% endif %}

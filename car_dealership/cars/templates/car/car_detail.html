@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ car.model_name }}{% endblock title %}
+{% block content %}
+  <section class="car_detail">
+    <div class="car_detail_images">
+      {% if car_images %}
+        {% include "car/car_detail_carousel.html" with car_images=car_images %}
+      {% else %}
+        <p>No images available for this car.</p>
+      {% endif %}
+      <h2 class="car_detail_images__title">Vehicle Description</h2>
+      <p>{{ car.description }}</p>
+    </div>
+    <div class="car_detail__info">
+      <h2 class="info_title">{{ car.model_name }}</h2>
+      <h3 class="info_price">Price: {{ car.get_price }}</h3>
+      <div class="info_info">
+        <div>
+          <h4>Milage</h4>
+          <p>{{ car.get_milage }}</p>
+        </div>
+        <div>
+          <h4>Year</h4>
+          <p>{{ car.year }}</p>
+        </div>
+        <div>
+          <h4>Fuel</h4>
+          <p>{{ car.petrol_type }}</p>
+        </div>
+        <div>
+          <h4>Car Type</h4>
+          <p>{{ car.car_type }}</p>
+        </div>
+        <div>
+          <h4>Transmission</h4>
+          <p>{{ car.gear_type }}</p>
+        </div>
+      </div>
+      <div class="info_buttons">
+        {% if user.is_superuser %}
+          <a class="btn btn-primary" href="{% url 'edit_car' car.id %}">Edit</a>
+        {% endif %}
+        {% include "car/reserve_button.html" with reservation_id=reservation.id car_id=car.id %}
+      </div>
+    </div>
+    <div class="car_detail__similar_cars">
+      {% if similar_cars %}
+        <h2 class="similar_cars__title">Similar Cars</h2>
+        <div class="similar_cars__items">
+          {% for similar_car in similar_cars %}
+            <a href="{% url 'car' similar_car.id %}" class="items__item">
+              {% if similar_car.featured_image %}
+                <img src="{{ similar_car.featured_image.image.url }}"
+                     class="card-img-top"
+                     alt="{{ similar_car.model_name }}" />
+              {% endif %}
+              <p>{{ similar_car.get_price }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock content %}

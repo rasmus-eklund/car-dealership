@@ -1,0 +1,13 @@
+<a class="card" href="{{ car.id }}">
+  <img class="card-img"
+       src="{{ car.featured_image.image.url }}"
+       alt="{{ car.model_name }}" />
+  <div class="card-body">
+    <h2>{{ car.model_name }}</h2>
+    <p>{{ car.year }} / {{ car.get_milage }} / {{ car.petrol_type }}</p>
+    <div class="card-price">
+      <p>Price</p>
+      <p>{{ car.get_price }}</p>
+    </div>
+  </div>
+</a>

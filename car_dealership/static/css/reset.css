@@ -1,0 +1,102 @@
+/* Reset default browser styles */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* set pixel variables to rem to ease calculation */
+html {
+  --font-size--default: calc((16/16) * 1rem); /* 16px */
+  --font-size--xl: calc((28/16) * 1rem); /* 28px */
+  --font-size--l: calc((28/18) * 1rem); /* 18px */
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before, q::after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img {
+  border-style: none;
+}
+
+/* Remove default button styling */
+button, input, optgroup, select, textarea {
+  font-family: inherit; /* Inherit font-family for form elements */
+  font-size: inherit; /* Inherit font-size for form elements */
+  line-height: inherit; /* Inherit line-height for form elements */
+  margin: 0; /* Reset margin for form elements */
+  padding: 0; /* Reset padding for form elements */
+  color: inherit; /* Inherit color for form elements */
+}
+
+button {
+  background: transparent;
+  border: none;
+}
+
+/* Remove default styles for anchor tags */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default styles for form elements */
+input, textarea, select, button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Remove default focus styles */
+*:focus {
+  outline: none;
+}
+
+/* Ensure consistent box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}

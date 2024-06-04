@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="add_model_form">
+  <h2>Add {{ form_name }}</h2>
+
+  <input type="text" id="search-input" name="name" class="form-control mt-2" placeholder="Add your {{ form_name|lower }}...">
+
+  <ul class="list-group overflow-auto mt-2" id="item-list" style="max-height: 400px">
+    {% for item in data %}
+    <li class="list-group-item">{{ item }}</li>
+    {% endfor %}
+  </ul>
+
+  <div id="no-results" class="mt-2" style="display: none;">
+    <form id="add-item-form" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="name" id="hidden-input">
+      {% if form_name == "Brand Model" %}
+        <select id="manufacturer-select" name="manufacturer" class="form-control mt-2">
+          <option value="" disabled selected>Select Manufacturer</option>
+          {% for manufacturer in manufacturers %}
+          <option value="{{ manufacturer.id }}">{{ manufacturer.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+      <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
