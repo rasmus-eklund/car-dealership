@@ -24,23 +24,34 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
+          cd car_dealership
           python -m venv venv
           source venv/bin/activate
-      
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          cd car_dealership
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
         
+      - name: Collect static files
+        run: |
+          cd car_dealership
+          python manage.py collectstatic --noinput
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: |
+          cd car_dealership
+          zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
           path: |
-            release.zip
+            car_dealership/release.zip
             !venv/
 
   deploy:
@@ -49,7 +60,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -59,7 +70,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
