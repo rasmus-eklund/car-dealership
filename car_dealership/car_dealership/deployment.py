@@ -21,13 +21,18 @@ MIDDLEWARE = [
 
 # CORS_ALLOWED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 
+
 STORAGES = {
     'default': {
-        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        'BACKEND': 'storages.backends.azure_storage.AzureStorage',
+        'OPTIONS': {
+            'timeout': 20,
+        }
     },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
     }}
+
 
 CONNECTION = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 CONNECTION_STR = {pair.split('=')[0]: pair.split('=')[1]
