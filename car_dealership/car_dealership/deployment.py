@@ -1,6 +1,7 @@
 import os
 from .settings import *
 from .settings import BASE_DIR
+from azure.identity import DefaultAzureCredential
 
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
@@ -21,17 +22,20 @@ MIDDLEWARE = [
 
 # CORS_ALLOWED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 
-
 STORAGES = {
-    'default': {
-        'BACKEND': 'storages.backends.azure_storage.AzureStorage',
-        'OPTIONS': {
-            'timeout': 20,
-        }
+    "default": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "timeout": 20,
+            "token_credential": DefaultAzureCredential(),
+            "account_name": "cardealershipimages",
+            "azure_container": "carimages",
+        },
     },
     'staticfiles': {
         'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage',
-    }}
+    },
+}
 
 
 CONNECTION = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
