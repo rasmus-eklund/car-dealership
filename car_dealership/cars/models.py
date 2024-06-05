@@ -74,7 +74,7 @@ class Car(models.Model):
 
 
 def car_images_upload_to(instance, filename):
-    return os.path.join('car_images', str(instance.car.id), filename)
+    return os.path.join('car_images', str(instance.car.id) + '_' + filename)
 
 
 class CarImages(models.Model):
