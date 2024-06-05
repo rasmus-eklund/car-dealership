@@ -104,7 +104,7 @@ def get_additional_form_data(form, user):
     # Return additional data needed for forms based on the form type
     if form == 'manufacturer':
         return [i.name for i in Manufacturer.objects.all()], None
-    
+
     if form == 'brandmodel':
         brandmodels = BrandModel.objects.all()
         manufacturers = Manufacturer.objects.all()
@@ -162,6 +162,7 @@ def admin_forms(request, form_type):
         context['manufacturers'] = manufacturers
     # Render the form template
     return render(request, 'forms/admin_forms.html', context)
+
 
 @superuser_required
 def edit_car(request, car_id):
@@ -322,3 +323,10 @@ def cancel_reservation(request, reservation_id):
                 request, 'You are not authorized to cancel this reservation.')
     # Redirect to the referring page
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@superuser_required
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    car.delete()
+    messages.success(request, f'Car {car.model_name} deleted successfully.')
+    return redirect('index')
