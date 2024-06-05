@@ -39,6 +39,7 @@
       <div class="info_buttons">
         {% if user.is_superuser %}
           <a class="btn btn-primary" href="{% url 'edit_car' car.id %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'delete_car' car.id %}">Delete</a>
         {% endif %}
         {% include "car/reserve_button.html" with reservation_id=reservation.id car_id=car.id %}
       </div>
