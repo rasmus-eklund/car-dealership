@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+environ.Env.read_env(BASE_DIR / '.env')
 TEMPLATES_DIR = Path(BASE_DIR, 'templates')
 
 
@@ -70,8 +74,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cars',
     'authentication',
-    #'seed_faker',
-    #'seed',
+    # 'seed_faker',
+    # 'seed',
 ]
 
 MIDDLEWARE = [
@@ -163,10 +167,14 @@ STATIC_ROOT = Path(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = Path(BASE_DIR, 'media')
 
 # For development only
 if DEBUG:
     import mimetypes
     mimetypes.add_type("image/svg+xml", ".svg", True)
+
+AZURE_CONTAINER = env('AZURE_CONTAINER')
+AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = env('AZURE_ACCOUNT_KEY')
