@@ -37,6 +37,10 @@ STORAGES = {
 CONNECTION = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 CONNECTION_STR = {pair.split('=')[0]: pair.split('=')[1]
                   for pair in CONNECTION.split(' ')}
+AZURE_CONTAINER = os.environ['AZURE_CONTAINER']
+AZURE_ACCOUNT_NAME = os.environ['AZURE_ACCOUNT_NAME']
+AZURE_ACCOUNT_KEY = os.environ['AZURE_ACCOUNT_KEY']
+
 
 DATABASES = {
     'default': {
