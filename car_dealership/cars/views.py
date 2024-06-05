@@ -271,21 +271,6 @@ def delete_car_image(request, image_id):
                 messages.error(request, f'Error deleting image file: {e}')
                 return redirect('edit_car', car_id=car_id)
 
-        # Check if there are any remaining images for the car
-        remaining_images = CarImages.objects.filter(car=car).exists()
-
-        # If no images are left, remove the directory
-        if not remaining_images:
-            car_image_directory = os.path.dirname(image_path)
-            try:
-                os.rmdir(car_image_directory)
-                messages.success(
-                    request, 'Image and directory deleted successfully.')
-            except Exception as e:
-                messages.error(request, f'Error deleting directory: {e}')
-        else:
-            messages.success(request, 'Image deleted successfully.')
-
     return redirect('edit_car', car_id=car_id)
 
 
@@ -324,9 +309,18 @@ def cancel_reservation(request, reservation_id):
     # Redirect to the referring page
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+
 @superuser_required
 def delete_car(request, car_id):
     car = get_object_or_404(Car, id=car_id)
+    car_images = car.carimages_set.all()
+    # Delete the images associated with the car
+    for car_image in car_images:
+        image_path = car_image.image.path
+        if os.path.isfile(image_path):
+            try:
+                os.remove(image_path)
+            except Exception as e:
+                messages.error(request, f'Error deleting image file: {e}')
     car.delete()
-    messages.success(request, f'Car {car.model_name} deleted successfully.')
     return redirect('index')
