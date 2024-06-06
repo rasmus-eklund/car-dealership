@@ -1,6 +1,5 @@
 import os
 from django.db import models
-import locale
 from django.contrib.auth.models import User
 
 
@@ -63,8 +62,7 @@ class Car(models.Model):
     milage = models.IntegerField(default=0)
 
     def get_price(self):
-        locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
-        return f'{locale.currency(self.price, grouping=True)}'
+        return f'{int(self.price)} kr'
 
     def get_milage(self):
         return f'{self.milage} km'
