@@ -20,7 +20,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
+CORS_ALLOWED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
 
 STORAGES = {
     "default": {
