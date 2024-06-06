@@ -9,15 +9,11 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import environ
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env(
-    DEBUG=(bool, False),
-)
-environ.Env.read_env(BASE_DIR / '.env')
 TEMPLATES_DIR = Path(BASE_DIR, 'templates')
 
 
@@ -29,36 +25,6 @@ SECRET_KEY = 'django-insecure-^sctj=x@7==-q9v88(m&y0y=ox*wlc$nli1uz+bv-1z_q$@p(0
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': Path(BASE_DIR, 'debug.log'),
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
 
 ALLOWED_HOSTS = ['*']
 
@@ -74,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cars',
     'authentication',
-    # 'seed_faker',
-    # 'seed',
 ]
 
 MIDDLEWARE = [
@@ -174,7 +138,3 @@ MEDIA_ROOT = Path(BASE_DIR, 'media')
 if DEBUG:
     import mimetypes
     mimetypes.add_type("image/svg+xml", ".svg", True)
-
-AZURE_CONTAINER = env('AZURE_CONTAINER')
-AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME')
-AZURE_ACCOUNT_KEY = env('AZURE_ACCOUNT_KEY')
