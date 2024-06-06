@@ -62,7 +62,7 @@ class Car(models.Model):
     milage = models.IntegerField(default=0)
 
     def get_price(self):
-        return f'{int(self.price)} kr'
+        return format_swedish_currency(self.price)
 
     def get_milage(self):
         return f'{self.milage} km'
@@ -97,3 +97,8 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"Reservation for {self.car} by {self.user} on {self.reservation_date}"
+
+def format_swedish_currency(amount):
+    amount = round(amount, 2)
+    formatted_amount = f"{amount:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return f"{formatted_amount} kr"
